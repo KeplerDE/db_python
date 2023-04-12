@@ -1,85 +1,61 @@
-"""CREATE TABLE "Seat" (
-	"seat_id"	TEXT,
-	"taken"	INTEGER,
-	"price"	REAL
-)"""
-
-import sqlite3
+import random
+import string
 
 
-# connection = sqlite3.connect("cinema.db")  # connection to instance
-# connection.execute("""
-#     CREATE TABLE "Seat" (
-# 	    "seat_id"	TEXT,
-# 	    "taken"	INTEGER,
-# 	    "price"	REAL
-# 	    );
-#
-# 	    """)
-# connection.commit()
-# connection.close()
 
+class User:
+    """Represents a user that can buy a cinema Seat"""
 
-def insert_record():
-    connection = sqlite3.connect("cinema.db")
-    connection.execute("""
-    INSERT INTO "Seat" ("seat_id", "taken", "price") VALUES ("A1", "0", "90"), ("A2", "1", "100"), ("A3", "0", "80")
-    """)
-    connection.commit()
-    connection.close()
+    def __init__(self, name):
+        self.name = name
 
+    def buy(self, seat, card):
+        pass
 
-def select_all():
-    connection = sqlite3.connect("cinema.db")
-    cursor = connection.cursor()
-    cursor.execute("""
-    SELECT * FROM "Seat"
-    """)
-    result = cursor.fetchall()
-    connection.close()
-    return result
+class Seat:
+    """Represents a cinema seat that can be taken from a User"""
 
-def select_specific_columns():
-    connection = sqlite3.connect("cinema.db")
-    cursor = connection.cursor()
-    cursor.execute("""
-    SELECT "seat_id", "price" FROM "Seat"
-    """)
-    result = cursor.fetchall()
-    connection.close()
-    return result
+    database = "cinema.db"
 
-def select_with_condition():
-    connection = sqlite3.connect("cinema.db")
-    cursor = connection.cursor()
-    cursor.execute("""
-    SELECT "seat_id", "price" FROM "Seat" WHERE "price">80
-    """)
-    result = cursor.fetchall()
-    connection.close()
-    return result
+    def __init__(self, seat_id):
+        self.seat_id = seat_id
 
+    def get_price(self):
+        """Get the price of a certain seat"""
+        pass
 
-def update_value(occupied, seat_id):
-    connection = sqlite3.connect("cinema.db")
-    cursor = connection.execute("""
-    UPDATE  "Seat" SET "taken"=?  WHERE "seat_id"=?
-    """, [0, seat_id])
-    connection.commit()
-    connection.close()
+    def is_free(self):
+        pass
 
-def delete_records():
-    connection = sqlite3.connect("cinema.db")
-    cursor = connection.execute("""
-    DELETE FROM "Seat" WHERE  seat_id="A3"
-    """)
-    connection.commit()
-    connection.close()
+    def occupy(self):
+        """Change value of taken in the database from 0 to 1 if Seat is free"""
+        pass
+class Card:
+    """ Represents a bank card needed to finalize a Seat purchase"""
 
-# insert_record()
+    database = "banking.db"
 
-# print(select_all())
-# print(select_specific_columns())
-# print(select_with_condition())
-# delete_records()
-update_value(occupied=0, seat_id="A2")
+    def __init__(self, type, number, cvc, holder):
+        self.holder = holder
+        self.cvc = cvc
+        self.number = number
+        self.type = type
+
+    def validate(self, price):
+        pass
+
+class Ticket:
+    """Represents a cinema Ticket purchased by a User"""
+
+    def __init__(self, user, price, seat_number):
+        self.user = user
+        self.price = price
+        self.id = "".join([random.choice(string.ascii_letters) for i in range(8)])
+        self.seat_number = seat_number
+
+    def to_pdf(self):
+        pass
+
+if __name__ == "__main__":
+
+    name = input("Your full name: ")
