@@ -65,7 +65,15 @@ def update_value():
     cursor = connection.execute("""
     UPDATE  "Seat" SET "taken"=0  WHERE "seat_id"="A3"
     """)
-    connection.ommit()
+    connection.commit()
+    connection.close()
+
+def delete_records():
+    connection = sqlite3.connect("cinema.db")
+    cursor = connection.execute("""
+    DELETE FROM "Seat" WHERE  seat_id="A3"
+    """)
+    connection.commit()
     connection.close()
 
 # insert_record()
@@ -73,4 +81,4 @@ def update_value():
 # print(select_all())
 # print(select_specific_columns())
 # print(select_with_condition())
-update_value()
+delete_records()
